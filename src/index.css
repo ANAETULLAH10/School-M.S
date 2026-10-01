@@ -1,0 +1,227 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background-color: #ebf0f7;
+    color: #1e293b;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+  }
+}
+
+/* ===================================================
+   COMPREHENSIVE NEUMORPHISM (SOFT UI) DESIGN TOKENS
+   Neutral Canvas: #ebf0f7
+   Light Highlight: #ffffff
+   Dark Shadow: #c3ccd9 / #cad1de
+   =================================================== */
+
+/* Standard Elevated Neumorphic Surfaces */
+.neu-flat {
+  background: #ebf0f7;
+  box-shadow: 6px 6px 14px #cad1de, -6px -6px 14px #ffffff;
+}
+
+.neu-raised {
+  background: #ebf0f7;
+  box-shadow: 8px 8px 18px #cad1de, -8px -8px 18px #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+.neu-raised-sm {
+  background: #ebf0f7;
+  box-shadow: 4px 4px 10px #cad1de, -4px -4px 10px #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+.neu-raised-lg {
+  background: #ebf0f7;
+  box-shadow: 14px 14px 30px #c0c8d6, -14px -14px 30px #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+}
+
+/* Inset / Carved Wells & Recesses */
+.neu-inset {
+  background: #ebf0f7;
+  box-shadow: inset 4px 4px 8px #cad1de, inset -4px -4px 8px #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.neu-inset-sm {
+  background: #ebf0f7;
+  box-shadow: inset 2px 2px 5px #cad1de, inset -2px -2px 5px #ffffff;
+}
+
+.neu-inset-deep {
+  background: #e2e8f2;
+  box-shadow: inset 5px 5px 10px #bac3d2, inset -5px -5px 10px #ffffff;
+}
+
+/* Convex surface (gentle curve upwards) */
+.neu-convex {
+  background: linear-gradient(145deg, #fbfdff, #d4dbe6);
+  box-shadow: 6px 6px 14px #cad1de, -6px -6px 14px #ffffff;
+}
+
+/* Tactile Neutral Button */
+.neu-btn {
+  background: #ebf0f7;
+  color: #334155;
+  box-shadow: 5px 5px 12px #cad1de, -5px -5px 12px #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+.neu-btn:hover {
+  box-shadow: 3px 3px 8px #cad1de, -3px -3px 8px #ffffff;
+  transform: translateY(-1px);
+}
+
+.neu-btn:active,
+.neu-btn-active {
+  box-shadow: inset 3px 3px 7px #cad1de, inset -3px -3px 7px #ffffff !important;
+  transform: translateY(1px);
+  color: #1d4ed8;
+}
+
+/* Primary Accent Neumorphic Button (Royal Blue) */
+.neu-btn-primary {
+  background: linear-gradient(145deg, #2b6bf3, #1d58d8);
+  color: #ffffff;
+  box-shadow: 5px 5px 14px rgba(37, 99, 235, 0.4), -4px -4px 12px #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+.neu-btn-primary:hover {
+  background: linear-gradient(145deg, #3574fa, #184ec9);
+  box-shadow: 3px 3px 10px rgba(37, 99, 235, 0.45), -3px -3px 8px #ffffff;
+  transform: translateY(-1px);
+}
+
+.neu-btn-primary:active {
+  box-shadow: inset 3px 3px 7px rgba(15, 45, 115, 0.65), inset -2px -2px 5px rgba(255, 255, 255, 0.3) !important;
+  transform: translateY(1px);
+}
+
+/* Danger Button (Rose) */
+.neu-btn-danger {
+  background: linear-gradient(145deg, #f43f5e, #e11d48);
+  color: #ffffff;
+  box-shadow: 4px 4px 12px rgba(225, 29, 72, 0.35), -4px -4px 10px #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  transition: all 0.18s ease;
+  cursor: pointer;
+}
+
+.neu-btn-danger:active {
+  box-shadow: inset 3px 3px 6px rgba(136, 19, 55, 0.65) !important;
+  transform: translateY(1px);
+}
+
+/* Success Button (Emerald) */
+.neu-btn-success {
+  background: linear-gradient(145deg, #10b981, #059669);
+  color: #ffffff;
+  box-shadow: 4px 4px 12px rgba(16, 185, 129, 0.35), -4px -4px 10px #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  transition: all 0.18s ease;
+  cursor: pointer;
+}
+
+.neu-btn-success:active {
+  box-shadow: inset 3px 3px 6px rgba(6, 78, 59, 0.65) !important;
+  transform: translateY(1px);
+}
+
+/* Neumorphic Form Controls (Inputs, Selects, Textareas) */
+.neu-input {
+  background: #ebf0f7;
+  color: #1e293b;
+  box-shadow: inset 3px 3px 7px #cad1de, inset -3px -3px 7px #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  transition: all 0.2s ease;
+}
+
+.neu-input:focus {
+  outline: none;
+  box-shadow: inset 4px 4px 9px #c0c8d6, inset -4px -4px 9px #ffffff, 0 0 0 2px rgba(37, 99, 235, 0.3);
+}
+
+/* Neumorphic Dark Theme (For Navy Sidebar & Contrasting Panels) */
+.neu-dark-panel {
+  background: #0b1329;
+  box-shadow: 8px 8px 18px #040813, -4px -4px 12px #15244d;
+}
+
+.neu-dark-raised {
+  background: #0e1834;
+  box-shadow: 4px 4px 10px #060b1a, -3px -3px 8px #172752;
+}
+
+.neu-dark-inset {
+  background: #080e20;
+  box-shadow: inset 3px 3px 7px #040712, inset -2px -2px 6px #121c3b;
+}
+
+/* Custom Scrollbar for Neumorphic feel */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #ebf0f7;
+}
+::-webkit-scrollbar-thumb {
+  background: #cad1de;
+  border-radius: 9999px;
+  border: 2px solid #ebf0f7;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #b4bed0;
+}
+
+@media print {
+  /* Hide non-printable elements */
+  .no-print,
+  aside,
+  header,
+  nav,
+  .sidebar,
+  button,
+  .toast-container {
+    display: none !important;
+  }
+
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .print-only {
+    display: block !important;
+  }
+
+  .printable-area {
+    display: block !important;
+    position: static !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 16px !important;
+    box-shadow: none !important;
+    border: none !important;
+    background: #ffffff !important;
+  }
+}
+
+@media screen {
+  .print-only {
+    display: none !important;
+  }
+}

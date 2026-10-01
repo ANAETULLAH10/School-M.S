@@ -1,0 +1,6 @@
+{
+  "name": "MH ENGLISH PRIVATE HOME - School Management System",
+  "description": "Comprehensive School Management System with Student Information, Admission, Classes, Attendance, Fees, Exams & Results, Teachers, and Reports.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
