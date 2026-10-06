@@ -24,6 +24,7 @@ interface StudentProfileModalProps {
   attendance: AttendanceRecord[];
   invoices: FeeInvoice[];
   results: ExamResult[];
+  initialTab?: 'overview' | 'personal' | 'guardian' | 'attendance' | 'fees' | 'exams' | 'documents';
   onClose: () => void;
   onEdit: (student: Student) => void;
   onPrintIDCard: (student: Student) => void;
@@ -35,13 +36,14 @@ export const StudentProfileModal: React.FC<StudentProfileModalProps> = ({
   attendance,
   invoices,
   results,
+  initialTab = 'overview',
   onClose,
   onEdit,
   onPrintIDCard,
 }) => {
   const [activeTab, setActiveTab] = useState<
     'overview' | 'personal' | 'guardian' | 'attendance' | 'fees' | 'exams' | 'documents'
-  >('overview');
+  >(initialTab);
 
   const studentAttendance = attendance.filter((a) => a.studentId === student.id);
   const studentInvoices = invoices.filter((i) => i.studentId === student.id);

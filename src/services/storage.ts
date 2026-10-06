@@ -462,6 +462,140 @@ export const DEFAULT_SMS_LOGS: SmsLog[] = [
   },
 ];
 
+export const DEFAULT_INVOICES: FeeInvoice[] = [
+  {
+    id: 'inv-1001',
+    invoiceNo: 'INV-1001',
+    studentId: 'STU-00001',
+    studentName: 'Tanvir Rahaman',
+    classId: 'Class 10',
+    section: 'A',
+    feeType: 'Monthly Fee',
+    amount: 2500,
+    discount: 0,
+    paidAmount: 2500,
+    dueAmount: 0,
+    issueDate: '2026-04-01',
+    dueDate: '2026-04-15',
+    paidDate: '2026-04-10',
+    paymentMethod: 'Cash',
+    status: 'Paid',
+    notes: 'April tuition fee cleared',
+    createdAt: '2026-04-01T09:00:00.000Z',
+    updatedAt: '2026-04-10T10:00:00.000Z',
+  },
+  {
+    id: 'inv-1002',
+    invoiceNo: 'INV-1002',
+    studentId: 'STU-00001',
+    studentName: 'Tanvir Rahaman',
+    classId: 'Class 10',
+    section: 'A',
+    feeType: 'First Term Exam Fee',
+    amount: 1500,
+    discount: 0,
+    paidAmount: 500,
+    dueAmount: 1000,
+    issueDate: '2026-04-20',
+    dueDate: '2026-05-05',
+    paidDate: '2026-04-25',
+    paymentMethod: 'Cash',
+    status: 'Partial',
+    notes: 'Partial payment made, balance due ৳1,000',
+    createdAt: '2026-04-20T10:00:00.000Z',
+    updatedAt: '2026-04-25T11:00:00.000Z',
+  },
+  {
+    id: 'inv-1003',
+    invoiceNo: 'INV-1003',
+    studentId: 'STU-00002',
+    studentName: 'Tanisha Rahaman',
+    classId: 'Class 9',
+    section: 'A',
+    feeType: 'Monthly Fee',
+    amount: 2500,
+    discount: 0,
+    paidAmount: 0,
+    dueAmount: 2500,
+    issueDate: '2026-05-01',
+    dueDate: '2026-05-15',
+    status: 'Due',
+    notes: 'May tuition bill pending',
+    createdAt: '2026-05-01T09:00:00.000Z',
+    updatedAt: '2026-05-01T09:00:00.000Z',
+  },
+  {
+    id: 'inv-1004',
+    invoiceNo: 'INV-1004',
+    studentId: 'STU-00002',
+    studentName: 'Tanisha Rahaman',
+    classId: 'Class 9',
+    section: 'A',
+    feeType: 'Admission & Session Fee',
+    amount: 5000,
+    discount: 500,
+    paidAmount: 4500,
+    dueAmount: 0,
+    issueDate: '2026-01-10',
+    dueDate: '2026-01-20',
+    paidDate: '2026-01-12',
+    paymentMethod: 'Mobile Banking',
+    status: 'Paid',
+    notes: 'Paid via bKash, sibling discount applied ৳500',
+    createdAt: '2026-01-10T10:00:00.000Z',
+    updatedAt: '2026-01-12T11:30:00.000Z',
+  },
+];
+
+export const DEFAULT_PAYMENTS: FeePayment[] = [
+  {
+    id: 'pay-1',
+    receiptNo: 'REC-5001',
+    invoiceId: 'inv-1001',
+    invoiceNo: 'INV-1001',
+    studentId: 'STU-00001',
+    studentName: 'Tanvir Rahaman',
+    amount: 2500,
+    paymentDate: '2026-04-10',
+    paymentMethod: 'Cash',
+    receivedBy: 'Principal Office',
+    collectedBy: 'Administrator',
+    notes: 'Cash received at desk',
+    createdAt: '2026-04-10T10:00:00.000Z',
+  },
+  {
+    id: 'pay-2',
+    receiptNo: 'REC-5002',
+    invoiceId: 'inv-1004',
+    invoiceNo: 'INV-1004',
+    studentId: 'STU-00002',
+    studentName: 'Tanisha Rahaman',
+    amount: 4500,
+    paymentDate: '2026-01-12',
+    paymentMethod: 'Mobile Banking',
+    transactionRef: 'TRX-9481237',
+    receivedBy: 'Accounts Dept',
+    collectedBy: 'Accountant',
+    notes: 'bKash payment verified',
+    createdAt: '2026-01-12T11:30:00.000Z',
+  },
+  {
+    id: 'pay-3',
+    receiptNo: 'REC-5003',
+    invoiceId: 'inv-1002',
+    invoiceNo: 'INV-1002',
+    studentId: 'STU-00001',
+    studentName: 'Tanvir Rahaman',
+    amount: 500,
+    paymentDate: '2026-04-25',
+    paymentMethod: 'Cash',
+    receivedBy: 'Accounts Dept',
+    collectedBy: 'Administrator',
+    notes: 'Exam fee installment 1',
+    createdAt: '2026-04-25T11:00:00.000Z',
+  },
+];
+
 
 // Event listener for cross-component storage changes
 type StorageListener = () => void;
@@ -699,7 +833,7 @@ export function getAttendanceByDateAndClass(date: string, classId: string, secti
 
 // ----------------- FEES & INVOICES -----------------
 export function getInvoices(): FeeInvoice[] {
-  return getItem<FeeInvoice[]>(STORAGE_KEYS.INVOICES, []);
+  return getItem<FeeInvoice[]>(STORAGE_KEYS.INVOICES, DEFAULT_INVOICES);
 }
 
 export function saveInvoice(invoice: Omit<FeeInvoice, 'id' | 'invoiceNo' | 'createdAt' | 'updatedAt'> & { id?: string; invoiceNo?: string }): FeeInvoice {
@@ -751,7 +885,7 @@ export function deleteInvoice(id: string): boolean {
 
 // ----------------- PAYMENTS -----------------
 export function getPayments(): FeePayment[] {
-  return getItem<FeePayment[]>(STORAGE_KEYS.PAYMENTS, []);
+  return getItem<FeePayment[]>(STORAGE_KEYS.PAYMENTS, DEFAULT_PAYMENTS);
 }
 
 export function savePayment(payment: Omit<FeePayment, 'id' | 'receiptNo' | 'createdAt'> & { id?: string; receiptNo?: string }): FeePayment {
@@ -900,8 +1034,8 @@ export function resetToDemoData(): void {
   localStorage.setItem(STORAGE_KEYS.SUBJECTS, JSON.stringify(DEFAULT_SUBJECTS));
   localStorage.setItem(STORAGE_KEYS.EXAMS, JSON.stringify(DEFAULT_EXAMS));
   localStorage.setItem(STORAGE_KEYS.ATTENDANCE, JSON.stringify([]));
-  localStorage.setItem(STORAGE_KEYS.INVOICES, JSON.stringify([]));
-  localStorage.setItem(STORAGE_KEYS.PAYMENTS, JSON.stringify([]));
+  localStorage.setItem(STORAGE_KEYS.INVOICES, JSON.stringify(DEFAULT_INVOICES));
+  localStorage.setItem(STORAGE_KEYS.PAYMENTS, JSON.stringify(DEFAULT_PAYMENTS));
   localStorage.setItem(STORAGE_KEYS.RESULTS, JSON.stringify([]));
   localStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(DEFAULT_SETTINGS));
   localStorage.setItem(STORAGE_KEYS.GRADING, JSON.stringify(DEFAULT_GRADING));

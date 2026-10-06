@@ -171,6 +171,9 @@ function MainApp() {
   const [showAddStudentModal, setShowAddStudentModal] = useState(false);
   const [editingStudent, setEditingStudent] = useState<Student | null>(null);
   const [viewingStudent, setViewingStudent] = useState<Student | null>(null);
+  const [profileInitialTab, setProfileInitialTab] = useState<
+    'overview' | 'personal' | 'guardian' | 'attendance' | 'fees' | 'exams' | 'documents'
+  >('overview');
   const [printingIDCardStudent, setPrintingIDCardStudent] = useState<Student | null>(null);
 
   if (!isAuthenticated) {
@@ -409,11 +412,19 @@ function MainApp() {
             <StudentsList
               students={students}
               classes={classes}
+              invoices={invoices}
               onAddStudent={() => {
                 setEditingStudent(null);
                 setShowAddStudentModal(true);
               }}
-              onViewStudent={(stu) => setViewingStudent(stu)}
+              onViewStudent={(stu) => {
+                setProfileInitialTab('overview');
+                setViewingStudent(stu);
+              }}
+              onViewFees={(stu) => {
+                setProfileInitialTab('fees');
+                setViewingStudent(stu);
+              }}
               onEditStudent={(stu) => {
                 setEditingStudent(stu);
                 setShowAddStudentModal(true);
@@ -620,6 +631,7 @@ function MainApp() {
           attendance={attendance}
           invoices={invoices}
           results={results}
+          initialTab={profileInitialTab}
           onClose={() => setViewingStudent(null)}
           onEdit={(stu) => {
             setViewingStudent(null);

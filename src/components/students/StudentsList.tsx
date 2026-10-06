@@ -11,28 +11,33 @@ import {
   ChevronLeft,
   ChevronRight,
   RotateCcw,
+  Wallet,
 } from 'lucide-react';
-import { Student, SchoolClass } from '../../types';
+import { Student, SchoolClass, FeeInvoice } from '../../types';
 import { formatDate, exportToCSV } from '../../services/exportUtils';
 
 interface StudentsListProps {
   students: Student[];
   classes: SchoolClass[];
+  invoices?: FeeInvoice[];
   onAddStudent: () => void;
   onViewStudent: (student: Student) => void;
   onEditStudent: (student: Student) => void;
   onDeleteStudent: (student: Student) => void;
   onPrintIDCard: (student: Student) => void;
+  onViewFees?: (student: Student) => void;
 }
 
 export const StudentsList: React.FC<StudentsListProps> = ({
   students,
   classes,
+  invoices = [],
   onAddStudent,
   onViewStudent,
   onEditStudent,
   onDeleteStudent,
   onPrintIDCard,
+  onViewFees,
 }) => {
   const [search, setSearch] = useState('');
   const [selectedClass, setSelectedClass] = useState('All');
@@ -267,62 +272,91 @@ export const StudentsList: React.FC<StudentsListProps> = ({
                   <th className="py-3 px-4">Section</th>
                   <th className="py-3 px-4">Guardian</th>
                   <th className="py-3 px-4">Phone</th>
+                  <th className="py-3 px-4">Fees Due</th>
                   <th className="py-3 px-4">Status</th>
                   <th className="py-3 px-4 text-right">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-200/30">
-                {paginated.map((stu) => (
-                  <tr key={stu.id} className="hover:bg-slate-200/20 transition-colors">
-                    <td className="py-3.5 px-4 font-mono text-xs font-bold text-blue-600">
-                      {stu.id}
-                    </td>
-                    <td className="py-3.5 px-4">
-                      {stu.photo ? (
-                        <img
-                          src={stu.photo}
-                          alt={stu.firstName}
-                          className="w-9 h-9 rounded-2xl object-cover shadow-[2px_2px_5px_#cad1de,-2px_-2px_5px_#ffffff]"
-                        />
-                      ) : (
-                        <div className="w-9 h-9 rounded-2xl neu-inset-sm text-slate-700 flex items-center justify-center font-bold text-xs">
-                          {stu.firstName.charAt(0)}
-                        </div>
-                      )}
-                    </td>
-                    <td className="py-3.5 px-4">
-                      <button
-                        onClick={() => onViewStudent(stu)}
-                        className="font-bold text-slate-800 hover:text-blue-600 text-left block"
-                      >
-                        {stu.firstName} {stu.lastName}
-                      </button>
-                      <span className="text-[11px] text-slate-400 font-medium">Roll: {stu.rollNo}</span>
-                    </td>
-                    <td className="py-3.5 px-4 text-slate-600 font-medium">{stu.gender}</td>
-                    <td className="py-3.5 px-4 text-slate-600 font-medium">{formatDate(stu.dob)}</td>
-                    <td className="py-3.5 px-4 font-bold text-slate-800">{stu.classId}</td>
-                    <td className="py-3.5 px-4 font-bold text-slate-800">{stu.section}</td>
-                    <td className="py-3.5 px-4 text-slate-600 font-medium">
-                      {stu.guardianName || stu.fatherName || '-'}
-                    </td>
-                    <td className="py-3.5 px-4 font-mono text-xs text-slate-600 font-medium">
-                      {stu.phone || '-'}
-                    </td>
-                    <td className="py-3.5 px-4">
-                      <span
-                        className={`neu-inset-sm inline-flex items-center px-3 py-1 rounded-full text-[11px] font-bold ${
-                          stu.status === 'Active'
-                            ? 'text-emerald-700'
-                            : stu.status === 'Inactive'
-                            ? 'text-rose-700'
-                            : 'text-slate-700'
-                        }`}
-                      >
-                        {stu.status}
-                      </span>
-                    </td>
-                    <td className="py-3.5 px-4 text-right">
+                {paginated.map((stu) => {
+                  const stuInvoices = (invoices || []).filter((i) => i.studentId === stu.id);
+                  const totalDue = stuInvoices.reduce((acc, i) => acc + (Number(i.dueAmount) || 0), 0);
+
+                  return (
+                    <tr key={stu.id} className="hover:bg-slate-200/20 transition-colors">
+                      <td className="py-3.5 px-4 font-mono text-xs font-bold text-blue-600">
+                        {stu.id}
+                      </td>
+                      <td className="py-3.5 px-4">
+                        {stu.photo ? (
+                          <img
+                            src={stu.photo}
+                            alt={stu.firstName}
+                            className="w-9 h-9 rounded-2xl object-cover shadow-[2px_2px_5px_#cad1de,-2px_-2px_5px_#ffffff]"
+                          />
+                        ) : (
+                          <div className="w-9 h-9 rounded-2xl neu-inset-sm text-slate-700 flex items-center justify-center font-bold text-xs">
+                            {stu.firstName.charAt(0)}
+                          </div>
+                        )}
+                      </td>
+                      <td className="py-3.5 px-4">
+                        <button
+                          onClick={() => onViewStudent(stu)}
+                          className="font-bold text-slate-800 hover:text-blue-600 text-left block"
+                        >
+                          {stu.firstName} {stu.lastName}
+                        </button>
+                        <span className="text-[11px] text-slate-400 font-medium">Roll: {stu.rollNo}</span>
+                      </td>
+                      <td className="py-3.5 px-4 text-slate-600 font-medium">{stu.gender}</td>
+                      <td className="py-3.5 px-4 text-slate-600 font-medium">{formatDate(stu.dob)}</td>
+                      <td className="py-3.5 px-4 font-bold text-slate-800">{stu.classId}</td>
+                      <td className="py-3.5 px-4 font-bold text-slate-800">{stu.section}</td>
+                      <td className="py-3.5 px-4 text-slate-600 font-medium">
+                        {stu.guardianName || stu.fatherName || '-'}
+                      </td>
+                      <td className="py-3.5 px-4 font-mono text-xs text-slate-600 font-medium">
+                        {stu.phone || '-'}
+                      </td>
+                      <td className="py-3.5 px-4">
+                        {stuInvoices.length === 0 ? (
+                          <span className="neu-inset-sm inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-medium text-slate-400">
+                            No Bill
+                          </span>
+                        ) : totalDue > 0 ? (
+                          <button
+                            onClick={() => (onViewFees ? onViewFees(stu) : onViewStudent(stu))}
+                            className="neu-btn px-2.5 py-0.5 rounded-full text-[11px] font-black text-rose-700 bg-rose-50/80 inline-flex items-center gap-1 hover:scale-105 transition-transform"
+                            title="Click to view fee details"
+                          >
+                            <Wallet className="w-3 h-3 text-rose-600" />
+                            <span>৳{totalDue.toLocaleString()} Due</span>
+                          </button>
+                        ) : (
+                          <button
+                            onClick={() => (onViewFees ? onViewFees(stu) : onViewStudent(stu))}
+                            className="neu-btn px-2.5 py-0.5 rounded-full text-[11px] font-bold text-emerald-700 bg-emerald-50/80 inline-flex items-center gap-1 hover:scale-105 transition-transform"
+                            title="All fees paid"
+                          >
+                            <span>Paid (৳0 Due)</span>
+                          </button>
+                        )}
+                      </td>
+                      <td className="py-3.5 px-4">
+                        <span
+                          className={`neu-inset-sm inline-flex items-center px-3 py-1 rounded-full text-[11px] font-bold ${
+                            stu.status === 'Active'
+                              ? 'text-emerald-700'
+                              : stu.status === 'Inactive'
+                              ? 'text-rose-700'
+                              : 'text-slate-700'
+                          }`}
+                        >
+                          {stu.status}
+                        </span>
+                      </td>
+                      <td className="py-3.5 px-4 text-right">
                       <div className="flex items-center justify-end gap-1.5">
                         <button
                           onClick={() => onViewStudent(stu)}
@@ -355,7 +389,8 @@ export const StudentsList: React.FC<StudentsListProps> = ({
                       </div>
                     </td>
                   </tr>
-                ))}
+                );
+              })}
               </tbody>
             </table>
           )}
